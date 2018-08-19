@@ -13,6 +13,8 @@
         "url": "https://bitbucket.org/twentyfirst/code-challenge"
     },
     "dependencies": {
+        "angular-material": "^1.1.10",
+        "angular-route": "^1.6.5",
         "express": "^4.16.3"
     }
 }

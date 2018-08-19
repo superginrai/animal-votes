@@ -1,4 +1,4 @@
-const app = angular.module("Candidate.App", []);
+const app = angular.module("Candidate.App", ['ngRoute', 'ngMaterial']);
 
 app.component("itmRoot", {
     controller: class {
@@ -110,7 +110,7 @@ app.component("itmManagement", {
             <label>Candidate Name</label>
             <input type="text" ng-model="$ctrl.newCandidate.name" required>
 
-            <button type="submit" >Add</button>
+            <md-button type="submit" >Add</md-button>
         </form>
 
         <h3>Remove Candidate</h3>

@@ -40,6 +40,12 @@ app.component("itmRoot", {
             console.log(candidate);
             for (var i = this.candidates.length - 1; i >= 0; i--) {
                 if (this.candidates[i].name === candidate.name) {
+                    // swal({
+                    //     title: "Please pick a new candidate",
+                    //     text: "This candidate is already in the race.",
+                    //     icon: "success",
+                    //     button: "Return",
+                    // });
                     console.log('Candidate already exists.');
                     return 0;
                 }
@@ -75,7 +81,7 @@ app.component("itmRoot", {
         }
     },
     template: `
-        <h1 style="text-align: center;">Which candidate brings the most joy?</h1>
+        <h1>Which candidate brings the most joy?</h1>
              
         <itm-results 
             candidates="$ctrl.candidates"
@@ -101,7 +107,7 @@ app.component("itmManagement", {
     bindings: {
         candidates: "<",
         onAdd: "&",
-        onRemove: "&"
+        // onRemove: "&"
     },
     controller: class {
         constructor() {
@@ -109,7 +115,7 @@ app.component("itmManagement", {
                 name: "",
                 votes: 0,
                 percent: 0,
-                image_path: "https://www.warrenphotographic.co.uk/photography/bigs/26740-Ginger-kitten-with-Cavapoo-pup-rabbit-and-Guinea-pig-white-background.jpg"
+                image_path: "https://www.warrenphotographic.co.uk/photography/bigs/26740-Ginger-kitten-with-Cavapoo-pup-rabbit-and-Guinea-pig-white-background.jpg",
             };
         }
 
@@ -117,14 +123,14 @@ app.component("itmManagement", {
             this.onAdd({ $candidate: candidate });
         }
 
-        removeCandidate(candidate) {
-            this.onRemove({ $candidate: candidate });
-        }
+        // removeCandidate(candidate) {
+        //     this.onRemove({ $candidate: candidate });
+        // }
     },
     template:
         // <h2>Manage Candidates</h2>
         `
-        <div style="text-align: center;">
+        <div id="input">
         <h3>Add a New Candidate!</h3>
         <form ng-submit="$ctrl.submitCandidate($ctrl.newCandidate)" novalidate>
 
@@ -133,10 +139,10 @@ app.component("itmManagement", {
   <input type="text" ng-model="$ctrl.newCandidate.name">
 </md-input-container>
 
-            <md-button class="md-raised" type="submit" >Add</md-button>
+            <md-button class="md-raised md-primary" type="submit" >Add</md-button>
         </form>
         </div>
-        `
+`
 
     //     <h3>Remove Candidate</h3>
     //     <ul>
@@ -198,7 +204,7 @@ app.component("itmResults", {
             <img ng-src={{candidate.image_path}} alt="no picture available" style="max-width: 300px;">
         </div>
         <md-card-actions layout="column" layout-align="start center">
-        <md-button class="md-icon-button" ng-click="$ctrl.onVote({ $candidate: candidate })">
+        <md-button class="md-icon-button md-accent" ng-click="$ctrl.onVote({ $candidate: candidate })">
         <i class="material-icons">favorite</i>
         </md-button>
             <md-button class="md-icon-button" ng-click="$ctrl.removeCandidate(candidate)">

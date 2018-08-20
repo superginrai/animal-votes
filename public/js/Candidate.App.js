@@ -6,7 +6,10 @@ app.component("itmRoot", {
             this.candidates = [{ name: "Hyraxes", votes: 42, percent: 59, image_path: "https://a-z-animals.com/media/animals/images/470x370/rock_hyrax.jpg" },
             { name: "Kittehs", votes: 12, percent: 17, image_path: "/images/snarf.jpg" },
             { name: "Puppies", votes: 10, percent: 14, image_path: "http://1857el3tlg4r2uc4w82vmnbh.wpengine.netdna-cdn.com/wp-content/uploads/2017/01/what-does-a-pomchi-look-like-pomchi-dogs-and-puppies-01.jpg" },
-            { name: "Gerbils", votes: 7, percent: 10, image_path: "https://www.pets4homes.co.uk/images/articles/72/c79ef5a8f628b6ed82f88512ea00ca9f.jpg" },];
+            { name: "Gerbils", votes: 7, percent: 10, image_path: "https://www.pets4homes.co.uk/images/articles/72/c79ef5a8f628b6ed82f88512ea00ca9f.jpg" },
+            { name: "Bandicoots", votes: 0, percent: 0, image_path: "https://haydensanimalfacts.files.wordpress.com/2015/03/southern-brown-bandicoot.jpg"},
+            { name: "Slothes", votes: 0, percent: 0, image_path: "https://upload.wikimedia.org/wikipedia/commons/a/a7/Cute_Sloth.jpg"}
+        ];
 
             this.totalVotes = 71;
         }
@@ -34,6 +37,7 @@ app.component("itmRoot", {
         }
 
         onAddCandidate(candidate) {
+            console.log(candidate);
             for (var i = this.candidates.length - 1; i >= 0; i--) {
                 if (this.candidates[i].name === candidate.name) {
                     console.log('Candidate already exists.');
@@ -44,43 +48,34 @@ app.component("itmRoot", {
                     return 0;
                 }
             }
-            console.log(`Added candidate ${candidate.name}`);
+            console.log(`Added candidate ${candidate}`);
             this.candidates.push(candidate);
         }
 
         onRemoveCandidate(candidate) {
-            // swal({
-            //     title: "Are you sure?",
-            //     text: "This candidate will withdraw from the race!",
-            //     icon: "warning",
-            //     buttons: true,
-            //     dangerMode: true,
+            for (var i = this.candidates.length - 1; i >= 0; i--) {
+                if (this.candidates[i] === candidate) {
+                    this.candidates.splice(i, 1);
+                }
+            }
+            // swal("This candidate has withdrawn from the race!", {
+            //     icon: "success",
             // })
-            //     .then((willDelete) => {
-            //         if (willDelete) {
-                        for (var i = this.candidates.length - 1; i >= 0; i--) {
-                            if (this.candidates[i] === candidate) {
-                                this.candidates.splice(i, 1);
-                            }
-                        }
-                        // swal("This candidate has withdrawn from the race!", {
-                        //     icon: "success",
-                        // })
-                        console.log(`Removed candidate ${candidate.name}`);
-                        swal({
-                            title: "Byeeee!",
-                            text: "This candidate has withdrawn from the race.",
-                            icon: "success",
-                            button: "Return",
-                          });
-                    // } else {
-        //                 swal("This candidate is still in the running!");
-        //             }
-        //         });
+            console.log(`Removed candidate ${candidate.name}`);
+            swal({
+                title: "Byeeee!",
+                text: "This candidate has withdrawn from the race.",
+                icon: "success",
+                button: "Return",
+            });
+            // } else {
+            //                 swal("This candidate is still in the running!");
+            //             }
+            //         });
         }
     },
     template: `
-        <h1>Which candidate brings the most joy?</h1>
+        <h1 style="text-align: center;">Which candidate brings the most joy?</h1>
              
         <itm-results 
             candidates="$ctrl.candidates"
@@ -112,7 +107,9 @@ app.component("itmManagement", {
         constructor() {
             this.newCandidate = {
                 name: "",
-                votes: 0
+                votes: 0,
+                percent: 0,
+                image_path: "https://www.warrenphotographic.co.uk/photography/bigs/26740-Ginger-kitten-with-Cavapoo-pup-rabbit-and-Guinea-pig-white-background.jpg"
             };
         }
 
@@ -127,14 +124,19 @@ app.component("itmManagement", {
     template:
         // <h2>Manage Candidates</h2>
         `
-        <h3>Add New Candidate</h3>
+        <div style="text-align: center;">
+        <h3>Add a New Candidate!</h3>
         <form ng-submit="$ctrl.submitCandidate($ctrl.newCandidate)" novalidate>
 
-            <label>Candidate Name</label>
-            <input type="text" ng-model="$ctrl.newCandidate.name" required>
+            <md-input-container>
+  <label>Candidate Name</label>
+  <input type="text" ng-model="$ctrl.newCandidate.name">
+</md-input-container>
 
-            <md-button type="submit" >Add</md-button>
-        </form>`
+            <md-button class="md-raised" type="submit" >Add</md-button>
+        </form>
+        </div>
+        `
 
     //     <h3>Remove Candidate</h3>
     //     <ul>
@@ -172,7 +174,6 @@ app.component("itmResults", {
         onVote: "&",
         onRemove: "&",
         totalVotes: "&"
-        // totalVotes: "="
     },
     controller: class {
         removeCandidate(candidate) {
@@ -181,10 +182,9 @@ app.component("itmResults", {
 
     },
     template:
-        // <h2>Live Results</h2>
         `
         <md-content class="md-padding" layout-xs="column" layout="row" layout-wrap>
-        <div flex-xs flex-gt-xs="30" layout="column" ng-repeat="candidate in $ctrl.candidates">
+        <div flex-xs flex="33" layout="column" ng-repeat="candidate in $ctrl.candidates">
             <md-card>
             <md-card-title>
                 <md-card-title-text>
@@ -195,9 +195,9 @@ app.component("itmResults", {
             </md-card-title>
             <md-card-content layout="row" layout-align="space-between">
             <div class="md-media-xl card-media">
-            <img ng-src={{candidate.image_path}} alt="no picture available" style="width: 275px;">
+            <img ng-src={{candidate.image_path}} alt="no picture available" style="max-width: 300px;">
         </div>
-        <md-card-actions layout="column">
+        <md-card-actions layout="column" layout-align="start center">
         <md-button class="md-icon-button" ng-click="$ctrl.onVote({ $candidate: candidate })">
         <i class="material-icons">favorite</i>
         </md-button>
@@ -210,6 +210,3 @@ app.component("itmResults", {
         </div>
     `
 });
-
-{/* <h3>Total Votes:<h3>
-<span ng-bind="$ctrl.totalVotes"></span> */}

@@ -7,7 +7,7 @@ app.component("itmRoot", {
             { name: "Kittehs", votes: 12, percent: 17, image_path: "/images/snarf.jpg" },
             { name: "Puppies", votes: 10, percent: 14, image_path: "http://1857el3tlg4r2uc4w82vmnbh.wpengine.netdna-cdn.com/wp-content/uploads/2017/01/what-does-a-pomchi-look-like-pomchi-dogs-and-puppies-01.jpg" },
             { name: "Gerbils", votes: 7, percent: 10, image_path: "https://www.pets4homes.co.uk/images/articles/72/c79ef5a8f628b6ed82f88512ea00ca9f.jpg" },];
-            
+
             this.totalVotes = 71;
         }
 
@@ -49,12 +49,34 @@ app.component("itmRoot", {
         }
 
         onRemoveCandidate(candidate) {
-            console.log(`Removed candidate ${candidate.name}`);
-            for (var i = this.candidates.length - 1; i >= 0; i--) {
-                if (this.candidates[i] === candidate) {
-                    this.candidates.splice(i, 1);
-                }
-            }
+            // swal({
+            //     title: "Are you sure?",
+            //     text: "This candidate will withdraw from the race!",
+            //     icon: "warning",
+            //     buttons: true,
+            //     dangerMode: true,
+            // })
+            //     .then((willDelete) => {
+            //         if (willDelete) {
+                        for (var i = this.candidates.length - 1; i >= 0; i--) {
+                            if (this.candidates[i] === candidate) {
+                                this.candidates.splice(i, 1);
+                            }
+                        }
+                        // swal("This candidate has withdrawn from the race!", {
+                        //     icon: "success",
+                        // })
+                        console.log(`Removed candidate ${candidate.name}`);
+                        swal({
+                            title: "Byeeee!",
+                            text: "This candidate has withdrawn from the race.",
+                            icon: "success",
+                            button: "Return",
+                          });
+                    // } else {
+        //                 swal("This candidate is still in the running!");
+        //             }
+        //         });
         }
     },
     template: `
@@ -102,9 +124,9 @@ app.component("itmManagement", {
             this.onRemove({ $candidate: candidate });
         }
     },
-    template: 
+    template:
         // <h2>Manage Candidates</h2>
-`
+        `
         <h3>Add New Candidate</h3>
         <form ng-submit="$ctrl.submitCandidate($ctrl.newCandidate)" novalidate>
 
@@ -152,7 +174,7 @@ app.component("itmResults", {
         totalVotes: "&"
         // totalVotes: "="
     },
-    controller: class { 
+    controller: class {
         removeCandidate(candidate) {
             this.onRemove({ $candidate: candidate });
         }
@@ -160,7 +182,7 @@ app.component("itmResults", {
     },
     template:
         // <h2>Live Results</h2>
-   `
+        `
         <md-content class="md-padding" layout-xs="column" layout="row" layout-wrap>
         <div flex-xs flex-gt-xs="30" layout="column" ng-repeat="candidate in $ctrl.candidates">
             <md-card>

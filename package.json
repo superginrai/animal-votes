@@ -16,6 +16,7 @@
         "angular-material": "^1.1.10",
         "angular-route": "^1.6.5",
         "express": "^4.16.3",
+        "sweetalert": "^2.1.0",
         "sweetalert2": "^7.26.11"
     }
 }

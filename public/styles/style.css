@@ -1,0 +1,14 @@
+@font-face {
+font-family: cute;
+src: url("../fonts/CHERI___.TTF");
+}
+
+h1{
+    font-family: cute;
+    text-align: center;
+}
+
+#input{
+    font-family: cute;
+    text-align: center;
+}
